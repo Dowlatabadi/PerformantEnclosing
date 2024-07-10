@@ -32,6 +32,8 @@ public class Manager : MonoBehaviour
     int CurrentDot = 0;
     float foundRadius = 0;
     public float randomDisplacement = 2f;
+    GameObject growingSphere;
+    float interval = 2f;
 
     int linePointIndex = 0;
     // Start is called before the first frame update
@@ -44,6 +46,7 @@ public class Manager : MonoBehaviour
         }
 
         InstantiateDots();
+        camera.transform.position = new Vector3(Dots[0].transform.position.x, Dots[0].transform.position.y, camera.transform.position.z);
 
         AddLinePoint(0);
 
@@ -60,7 +63,6 @@ public class Manager : MonoBehaviour
     void SelectNext()
     {
         Dots[CurrentDot].GetComponent<Dot>().SelectDot();
-        Dots[CurrentDot].GetComponent<Dot>().SetLabel((CurrentDot + 1).ToString());
 
 
         //if not enclosing
@@ -95,7 +97,7 @@ public class Manager : MonoBehaviour
     {
         for (int i = 0; i < Dots.Count; i++)
         {
-            yield return new WaitForSeconds(1f);
+            yield return new WaitForSeconds(interval);
             SelectNext();
         }
         highlightSphere(Spheres.Last());
@@ -104,7 +106,7 @@ public class Manager : MonoBehaviour
     void highlightSphere(GameObject S)
     {
         Material material = S.GetComponent<Renderer>().material;
-        Color color = Color.yellow;
+        Color color = Color.blue;
         color.a = .5f;
         material.color = color;
     }
@@ -114,6 +116,7 @@ public class Manager : MonoBehaviour
         for (int i = 0; i < DotsNum; i++)
         {
             var go = Instantiate(DotPrefab, positions[i], Quaternion.identity);
+            go.GetComponent<Dot>().SetLabel((i + 1).ToString());
             Dots.Add(go);
         }
     }
@@ -134,10 +137,16 @@ public class Manager : MonoBehaviour
     void createSphere(Vector3 center, float radius)
     {
         foundRadius = radius;
-        var go = Instantiate(SpherePrefab, center, Quaternion.identity);
-        go.transform.localScale = Vector3.one * radius * 2;
-        decreaseSpheresOpa();
-        Spheres.Add(go);
+        if (Spheres.Count == 0)
+        {
+            growingSphere = Instantiate(SpherePrefab, center, Quaternion.identity);
+            Spheres.Add(growingSphere);
+        }
+
+        growingSphere.GetComponent<Sphere>().grow(radius * 2, interval);
+        //growingSphere.transform.localScale = Vector3.one * radius * 2;
+
+        //decreaseSpheresOpa();
     }
 
     void decreaseSpheresOpa()

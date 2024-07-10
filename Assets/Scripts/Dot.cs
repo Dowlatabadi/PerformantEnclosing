@@ -27,6 +27,7 @@ public class Dot : MonoBehaviour
     public void SelectDot()
     {
         objectMaterial.color = Color.red;
+        transform.localScale = 1.2f* transform.localScale;
     }
     public void SetLabel(string label)
     {
