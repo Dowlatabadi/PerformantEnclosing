@@ -3,12 +3,12 @@
 This repository contains an implementation of the simple streaming algorithm for computing the minimum enclosing ball (or 1-center) of a set of points in high dimensions, as described in the article "A Simple Streaming Algorithm for Minimum Enclosing Balls".
 
 
-**Algorithm Overview**
+***Algorithm Overview***
 
 The algorithm is designed to compute a 3/2-factor approximation of the minimum enclosing ball in any dimension using minimum space and processing the data points in just one pass.
 
 
-**Simulation Results**
+***Simulation Results***
 
 To visualize the algorithm's performance, we have created four GIF files:
 
@@ -21,17 +21,15 @@ These GIFs demonstrate the algorithm's behavior in 3D space:
 ![3d example 2](3d2.gif)
 
 
-How to Run the Simulation
+***How to Run the Simulation***
 
 To run the simulation, simply clone this repository and execute the project.
 
-Code Organization
-
-Acknowledgments
+***Acknowledgments***
 
 This implementation is based on the article "A Simple Streaming Algorithm for Minimum Enclosing Balls" and is intended for educational and research purposes only.
 
-License
+***License***
 
 This repository is licensed under the MIT License. See the LICENSE file for details.
 
