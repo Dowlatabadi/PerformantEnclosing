@@ -23,12 +23,14 @@ public class Manager : MonoBehaviour
 {
     public Camera camera;
     public bool ThreeD;
+    public GameObject Parent;
     public GameObject DotPrefab;
     public GameObject SpherePrefab;
     public LineRenderer LR;
     public int DotsNum;
     List<GameObject> Dots = new List<GameObject>();
     List<GameObject> Spheres = new List<GameObject>();
+    List<Transform> LineDots= new List<Transform>();
     int CurrentDot = 0;
     float foundRadius = 0;
     public float randomDisplacement = 2f;
@@ -43,6 +45,7 @@ public class Manager : MonoBehaviour
         if (!ThreeD)
         {
             camera.orthographic = true;
+            Parent.GetComponent<Rotates>().enabled = false;
         }
 
         InstantiateDots();
@@ -90,7 +93,18 @@ public class Manager : MonoBehaviour
     {
         Debug.Log($"LINE POINT {CurrentDot}");
         LR.positionCount++;
-        LR.SetPosition(linePointIndex++, Dots[CurrentDot].transform.position);
+        LineDots.Add(Dots[CurrentDot].transform);
+        linePointIndex++;
+        RenderLine();
+        
+
+    }
+    public void RenderLine()
+    {
+        for (int i = 0; i < LineDots.Count; i++)
+        {
+            LR.SetPositions(LineDots.Select(x=>x.position).ToArray());
+        }
     }
 
     IEnumerator Operate()
@@ -116,6 +130,14 @@ public class Manager : MonoBehaviour
         for (int i = 0; i < DotsNum; i++)
         {
             var go = Instantiate(DotPrefab, positions[i], Quaternion.identity);
+
+            if (i == 0)
+            {
+                //set parent location to first child
+                Parent.transform.position = go.transform.position;
+            }
+
+            go.transform.SetParent(Parent.transform);
             go.GetComponent<Dot>().SetLabel((i + 1).ToString());
             Dots.Add(go);
         }
@@ -140,6 +162,8 @@ public class Manager : MonoBehaviour
         if (Spheres.Count == 0)
         {
             growingSphere = Instantiate(SpherePrefab, center, Quaternion.identity);
+            growingSphere.transform.SetParent(Parent.transform);
+
             Spheres.Add(growingSphere);
         }
 
