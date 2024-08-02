@@ -10,11 +10,11 @@ The algorithm is designed to compute a 3/2-factor approximation of the minimum e
 
 ***Simulation Results***
 
-To visualize the algorithm's performance, we have created four GIF files:
+To visualize the algorithm's performance, we have created two GIF files:
 
 These GIFs demonstrate the algorithm's behavior in 3D space:
-![3d example 1](3d1.gif)
 ![3d example 2](3d2.gif)
+![3d example 1](3d1.gif)
 
 
 ***How to Run the Simulation***
